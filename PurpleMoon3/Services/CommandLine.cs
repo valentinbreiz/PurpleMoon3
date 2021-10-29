@@ -46,6 +46,7 @@ namespace PurpleMoon3
             Commands.Add(new Command("CLS", "Clear the screen", "cls", CommandActions.CLS));
             Commands.Add(new Command("HELP", "Show list of commands", "help [-u : usage]", CommandActions.HELP));
             Commands.Add(new Command("SERVICES", "Show list of registered services", "services", CommandActions.SERVICES));
+            Commands.Add(new Command("LSPCI", "Show list of PCI devices", "lspci", CommandActions.LSPCI));
             Commands.Add(new Command("CD", "Set the current directory", "cd [path]", CommandActions.CD));
             Commands.Add(new Command("DIR", "Show contents of specified directory", "dir [path]", CommandActions.DIR));
 
@@ -186,6 +187,28 @@ namespace PurpleMoon3
                 string full = Kernel.CLI.CurrentPath + input.Replace("/", "\\");
                 if (!full.EndsWith("\\")) { full += "\\"; }
                 if (!Kernel.FileSys.PrintContents(full)) { Kernel.Terminal.WriteLine("Unable to locate path '" + Kernel.CLI.CurrentPath + "'"); return; }
+            }
+        }
+
+        public static void LSPCI(string[] args)
+        {
+            Kernel.Terminal.Write("------ ", Color.DimGray);
+            Kernel.Terminal.Write("PCI DEVICES", Color.Lime);
+            Kernel.Terminal.WriteLine(" ------------------------", Color.DimGray);
+            Kernel.Terminal.WriteLine("VENDOR    DEVICE  CLASS  SUBCLASS", Color.DimGray);
+            Kernel.Terminal.WriteLine("0000      0000    00     00", Color.DimGray);
+
+            ushort lastVendor = 0xFFFF, lastDevice = 0xFFFF;
+            for (int i = 0; i < Cosmos.HAL.PCI.Devices.Count; i++)
+            {
+                if (Cosmos.HAL.PCI.Devices[i].VendorID == lastVendor && Cosmos.HAL.PCI.Devices[i].DeviceID == lastDevice) { continue; }
+                Kernel.Terminal.Write(StringUtil.HexToString(Cosmos.HAL.PCI.Devices[i].VendorID, 2) + "      ", Color.Cyan);
+                Kernel.Terminal.Write(StringUtil.HexToString(Cosmos.HAL.PCI.Devices[i].DeviceID, 2) + "    ", Color.Cyan);
+                Kernel.Terminal.Write(StringUtil.HexToString(Cosmos.HAL.PCI.Devices[i].ClassCode, 1) + "     ", Color.Yellow);
+                Kernel.Terminal.Write(StringUtil.HexToString(Cosmos.HAL.PCI.Devices[i].Subclass, 1), Color.Orange);
+                Kernel.Terminal.NewLine();
+                lastVendor = Cosmos.HAL.PCI.Devices[i].VendorID;
+                lastDevice = Cosmos.HAL.PCI.Devices[i].DeviceID;
             }
         }
     }
