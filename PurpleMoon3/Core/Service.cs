@@ -9,6 +9,7 @@ namespace PurpleMoon3
         KernelComponent,
         Driver,
         Utility,
+        Program,
     }
 
     public abstract class Service
@@ -24,6 +25,7 @@ namespace PurpleMoon3
             "KernelComponent",
             "Driver",
             "Utility",
+            "Program",
             "Unknown",
         };
 
@@ -49,7 +51,8 @@ namespace PurpleMoon3
                 case ServiceType.KernelComponent: { return TypeNames[0]; }
                 case ServiceType.Driver: { return TypeNames[1]; }
                 case ServiceType.Utility: { return TypeNames[2]; }
-                default: { return TypeNames[3]; }
+                case ServiceType.Program: { return TypeNames[3]; }
+                default: { return TypeNames[4]; }
             }
         }
     }

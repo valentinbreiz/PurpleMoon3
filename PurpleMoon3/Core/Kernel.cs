@@ -31,8 +31,7 @@ namespace PurpleMoon3
             CLI = new CommandLine();
             CLI.Initialize();
 
-            Terminal.WriteLine("PurpleMoon OS", Color.Magenta);
-            Terminal.WriteLine("Version 3.0", Color.Silver);
+            KernelInfo.Print();
             CLI.PrintCaret();
         }
 

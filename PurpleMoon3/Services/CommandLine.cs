@@ -44,9 +44,12 @@ namespace PurpleMoon3
             CommandArgs = null;
 
             Commands.Add(new Command("CLS", "Clear the screen", "cls", CommandActions.CLS));
+            Commands.Add(new Command("INFO", "Show system information", "info", CommandActions.INFO));
             Commands.Add(new Command("HELP", "Show list of commands", "help [-u : usage]", CommandActions.HELP));
             Commands.Add(new Command("SERVICES", "Show list of registered services", "services", CommandActions.SERVICES));
             Commands.Add(new Command("LSPCI", "Show list of PCI devices", "lspci", CommandActions.LSPCI));
+            Commands.Add(new Command("EDIT", "Multiline text editor", "edit [file]", CommandActions.EDIT));
+            Commands.Add(new Command("RUN", "Run an executable file", "run [file]", CommandActions.RUN));
             Commands.Add(new Command("CD", "Set the current directory", "cd [path]", CommandActions.CD));
             Commands.Add(new Command("DIR", "Show contents of specified directory", "dir [path]", CommandActions.DIR));
 
@@ -138,6 +141,11 @@ namespace PurpleMoon3
             }
         }
 
+        public static void INFO(string[] args)
+        {
+            KernelInfo.Print();
+        }
+
         public static void SERVICES(string[] args)
         {
             Kernel.Terminal.Write("------ ", Color.DimGray);
@@ -210,6 +218,16 @@ namespace PurpleMoon3
                 lastVendor = Cosmos.HAL.PCI.Devices[i].VendorID;
                 lastDevice = Cosmos.HAL.PCI.Devices[i].DeviceID;
             }
+        }
+
+        public static void EDIT(string[] args)
+        {
+            Kernel.Terminal.WriteLine("NOT YET IMPLEMENTED", Color.Red);
+        }
+
+        public static void RUN(string[] args)
+        {
+            Kernel.Terminal.WriteLine("NOT YET IMPLEMENTED", Color.Red);
         }
     }
 }
